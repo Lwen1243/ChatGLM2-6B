@@ -11,28 +11,18 @@ st.set_page_config(
 
 @st.cache_resource
 def get_model():
-    tokenizer = AutoTokenizer.from_pretrained("THUDM/chatglm2-6b", trust_remote_code=True)
-    model = AutoModel.from_pretrained("THUDM/chatglm2-6b", trust_remote_code=True).cuda()
+    tokenizer = AutoTokenizer.from_pretrained("chatglm2-6b", trust_remote_code=True)
+    model = AutoModel.from_pretrained("chatglm2-6b", trust_remote_code=True).cuda()
     # 多显卡支持，使用下面两行代替上面一行，将num_gpus改为你实际的显卡数量
     # from utils import load_model_on_gpus
     # model = load_model_on_gpus("THUDM/chatglm2-6b", num_gpus=2)
     model = model.eval()
     return tokenizer, model
 
-
+    
 tokenizer, model = get_model()
 
 st.title("ChatGLM2-6B")
-
-max_length = st.sidebar.slider(
-    'max_length', 0, 32768, 8192, step=1
-)
-top_p = st.sidebar.slider(
-    'top_p', 0.0, 1.0, 0.8, step=0.01
-)
-temperature = st.sidebar.slider(
-    'temperature', 0.0, 1.0, 0.8, step=0.01
-)
 
 if 'history' not in st.session_state:
     st.session_state.history = []
