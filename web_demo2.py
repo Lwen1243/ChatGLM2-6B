@@ -1,6 +1,9 @@
 from transformers import AutoModel, AutoTokenizer
 import streamlit as st
 
+# 关闭健康检查
+st.set_option('server.enableCORS', False)
+
 
 st.set_page_config(
     page_title="医疗问答系统",
